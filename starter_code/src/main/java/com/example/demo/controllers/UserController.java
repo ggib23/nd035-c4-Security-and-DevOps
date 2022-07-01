@@ -56,6 +56,8 @@ public class UserController {
 			System.out.printf("Error with user password. Unable to create user ", createUserRequest.getUsername());
 			return ResponseEntity.badRequest().build();
 		}
+
+		// Implementation of BCryptPasswordEncoder.encode uses salt
 		user.setPassword(bCryptPasswordEncoder.encode(createUserRequest.getPassword()));
 		userRepository.save(user);
 		return ResponseEntity.ok(user);
