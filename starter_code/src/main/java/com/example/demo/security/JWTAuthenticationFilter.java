@@ -21,6 +21,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import static com.auth0.jwt.algorithms.Algorithm.HMAC512;
 
+// This custom class is responsible for the authentication process.
+// This class extends the UsernamePasswordAuthenticationFilter class, which is available under spring-security-web
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
 	 private AuthenticationManager authenticationManager;
@@ -29,6 +31,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         this.authenticationManager = authenticationManager;
     }
     
+    // Performs authentication by parsing (also called filtering) the user credentials
     @Override
     public Authentication attemptAuthentication(HttpServletRequest req,
                                                 HttpServletResponse res) throws AuthenticationException {
@@ -46,6 +49,8 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     	}
     }
     
+    // This method will be called after a user logs in successfull
+    // It is generating a String token (JWT) for this user
     @Override
     protected void successfulAuthentication(HttpServletRequest req,
                                             HttpServletResponse res,

@@ -1,7 +1,7 @@
 package com.example.demo.security;
 
 public class SecurityConstants {
-
+    // This class contains the literal constants that are used in the JWTAuthenticationFilter class
 	public static final String SECRET = "oursecretkey";
     public static final long EXPIRATION_TIME = 864_000_000; // 10 days
     public static final String TOKEN_PREFIX = "Bearer ";
