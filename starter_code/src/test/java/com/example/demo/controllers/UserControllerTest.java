@@ -37,15 +37,7 @@ public class UserControllerTest {
 
     @Test
     public void create_user_happy_path() throws Exception {
-        // Stubbing
-        when(bCryptPasswordEncoder.encode("testPassword123")).thenReturn("thisIsHashed"); // Anytime bCryptPasswordEncoder.encode("testPassword123") is called I can replace that value
-        
-        CreateUserRequest request = new CreateUserRequest();
-        request.setUsername("test");
-        request.setPassword("testPassword123");
-        request.setConfirmPassword("testPassword123");
-
-        final ResponseEntity<User> response = userController.createUser(request);
+       final ResponseEntity<User> response = createUser();
 
         assertNotNull(response);
         assertEquals(200, response.getStatusCodeValue());
@@ -56,5 +48,39 @@ public class UserControllerTest {
         assertEquals(0, testUser.getId());
         assertEquals("test", testUser.getUsername());
         assertEquals("thisIsHashed", testUser.getPassword()); // Because of Stubbing above, you will test the value against "thisIsHashed"
+    }
+
+    @Test
+    public void get_user_by_username() throws Exception {
+        // Create user to retrieve
+        final ResponseEntity<User> returnedUser = createUser();
+        User user = returnedUser.getBody();
+
+        // Stubbing
+        when(userRepository.findByUsername("test")).thenReturn(user);
+
+        // GET request to find user by username
+        ResponseEntity<User> response = userController.findByUserName("test");
+
+        assertNotNull(response);
+        assertEquals(200, response.getStatusCodeValue());
+
+        User testUser = response.getBody();
+
+        assertNotNull(testUser);
+        assertEquals(0, testUser.getId());
+        assertEquals("test", testUser.getUsername());
+    }
+
+    public ResponseEntity<User> createUser() {
+        // Stubbing
+        when(bCryptPasswordEncoder.encode("testPassword123")).thenReturn("thisIsHashed"); // Anytime bCryptPasswordEncoder.encode("testPassword123") is called I can replace that value
+        
+        CreateUserRequest request = new CreateUserRequest();
+        request.setUsername("test");
+        request.setPassword("testPassword123");
+        request.setConfirmPassword("testPassword123");
+
+        return userController.createUser(request);
     }
 }

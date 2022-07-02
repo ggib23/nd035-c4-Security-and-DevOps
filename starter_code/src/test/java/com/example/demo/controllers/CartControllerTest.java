@@ -66,7 +66,7 @@ public class CartControllerTest {
         request.setItemId(1);
         request.setQuantity(1);
 
-        // Mock return values.
+        // Mock return values
         when(userRepository.findByUsername(request.getUsername())).thenReturn(user);
         when(itemRepository.findById(request.getItemId())).thenReturn(item);
 

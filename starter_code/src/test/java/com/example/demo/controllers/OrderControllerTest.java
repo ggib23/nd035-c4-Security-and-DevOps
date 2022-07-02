@@ -104,6 +104,7 @@ public class OrderControllerTest {
 
         assertNotNull(response);
         assertEquals(200, response.getStatusCodeValue());
+        assertEquals(userOrders, response.getBody());
     }
 
     public User createUser() {
