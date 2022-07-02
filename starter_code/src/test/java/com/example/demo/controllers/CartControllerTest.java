@@ -42,13 +42,13 @@ public class CartControllerTest {
         userController = new UserController();
         cartController = new CartController();
         // Inject the required Autowired objects into the instance
-        TestUtils.injectObjects(cartController, "userRepository", userRepository);
-        TestUtils.injectObjects(cartController, "cartRepository", cartRepository);
-        TestUtils.injectObjects(cartController, "itemRepository", itemRepository);
-        // Inject the required Autowired objects into the instance
         TestUtils.injectObjects(userController, "userRepository", userRepository);
         TestUtils.injectObjects(userController, "cartRepository", cartRepository);
         TestUtils.injectObjects(userController, "bCryptPasswordEncoder", bCryptPasswordEncoder);
+        // Inject the required Autowired objects into the instance
+        TestUtils.injectObjects(cartController, "userRepository", userRepository);
+        TestUtils.injectObjects(cartController, "cartRepository", cartRepository);
+        TestUtils.injectObjects(cartController, "itemRepository", itemRepository);
     }
 
     @Test
