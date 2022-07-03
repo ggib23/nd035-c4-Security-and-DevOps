@@ -22,7 +22,7 @@ import com.example.demo.model.persistence.repositories.UserRepository;
 @RestController
 @RequestMapping("/api/order")
 public class OrderController {
-	private static final Logger log = LoggerFactory.getLogger(UserController.class);
+	private static final Logger log = LoggerFactory.getLogger(OrderController.class);
 	
 	@Autowired
 	private UserRepository userRepository;
@@ -34,8 +34,8 @@ public class OrderController {
 	@PostMapping("/submit/{username}")
 	public ResponseEntity<UserOrder> submit(@PathVariable String username) {
 		User user = userRepository.findByUsername(username);
-		log.debug("User found by ", user); // Log created for debugging
 		if(user == null) {
+			log.debug("OrderController - SubmitAnOrder request failure. User " + username + " not found"); // Log created for debugging
 			return ResponseEntity.notFound().build();
 		}
 		UserOrder order = UserOrder.createFromCart(user.getCart());
@@ -44,9 +44,9 @@ public class OrderController {
 		// Log request success and failures
 		ResponseEntity<UserOrder> submitResp = ResponseEntity.ok(order);
 		if (submitResp.getStatusCodeValue() != 200) {
-			log.error("SubmitAnOrder request failure. Unable to submit order for user ", username);
+			log.debug("OrderController - SubmitAnOrder request failure. Unable to submit order for user " + username);
 		} else {
-			log.info("SubmitAnOrder request success! Submitted order for user ", username);
+			log.info("OrderController - SubmitAnOrder request success! Submitted order for user " + username);
 		}
 		return ResponseEntity.ok(order);
 	}

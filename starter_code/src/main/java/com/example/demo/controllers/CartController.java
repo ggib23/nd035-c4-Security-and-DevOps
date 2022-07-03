@@ -24,7 +24,7 @@ import com.example.demo.model.requests.ModifyCartRequest;
 @RestController
 @RequestMapping("/api/cart")
 public class CartController {
-	private static final Logger log = LoggerFactory.getLogger(UserController.class);
+	private static final Logger log = LoggerFactory.getLogger(CartController.class);
 	
 	@Autowired
 	private UserRepository userRepository;
@@ -38,10 +38,11 @@ public class CartController {
 	@PostMapping("/addToCart")
 	public ResponseEntity<Cart> addTocart(@RequestBody ModifyCartRequest request) {
 		User user = userRepository.findByUsername(request.getUsername());
-		log.debug("User found by ", user); // Log created for debugging
 		if(user == null) {
+			log.debug("CartController - AddToCart request failure. User " + request.getUsername() + " not found"); // Log created for debugging
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-		}
+		} 
+		log.debug("CartController - Success! Item added to cart"); // Log created for debugging
 		Optional<Item> item = itemRepository.findById(request.getItemId());
 		if(!item.isPresent()) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();

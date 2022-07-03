@@ -50,14 +50,14 @@ public class UserController {
 	public ResponseEntity<User> createUser(@RequestBody CreateUserRequest createUserRequest) {
 		User user = new User();
 		user.setUsername(createUserRequest.getUsername());
-		log.debug("Username set with ", createUserRequest.getUsername()); // Log created for debugging
+		log.debug("UserController - Username set as " + createUserRequest.getUsername()); // Log created for debugging
 		Cart cart = new Cart();
 		cartRepository.save(cart);
 		user.setCart(cart);
 		// Either length is less than 7 or password and confirmPassword do not match
 		if(createUserRequest.getPassword().length()<7 ||
 				!createUserRequest.getPassword().equals(createUserRequest.getConfirmPassword())){
-					log.info("Error with user password. Unable to create user ", createUserRequest.getUsername());
+					log.info("UserController - Error with user password. Unable to create user " + createUserRequest.getUsername());
 			return ResponseEntity.badRequest().build();
 		}
 
@@ -68,9 +68,9 @@ public class UserController {
 		// Log request success and failures
 		ResponseEntity<User> createResp = ResponseEntity.ok(user);
 		if (createResp.getStatusCodeValue() != 200) {
-			log.error("CreateUser request failure. Unable to create user ", createUserRequest.getUsername());
+			log.debug("UserController - CreateUser request failure. Unable to create user " + createUserRequest.getUsername());
 		} else {
-			log.info("CreateUser request success! Created user ", createUserRequest.getUsername());
+			log.info("UserController - CreateUser request success! Created user " + createUserRequest.getUsername());
 		}
 		return ResponseEntity.ok(user);
 	}
